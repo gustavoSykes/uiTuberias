@@ -12,9 +12,9 @@ class UI:
         self.clock = pygame.time.Clock()
         self.corriendo = True
         self.fondo = pygame.image.load("imagenes/tubos.jpg")
-        self.arduino = serial.Serial("/dev/cu.usbmodem14201", 9600)
+        self.arduino = serial.Serial(puerto, 9600)
         self.estadoBomba = False
-        self.estadoev1 = True
+        self.estadoev1 = False
         self.estadoev2 = False
         self.estadoev3 = False
         self.estadoev4 = False
@@ -74,7 +74,8 @@ class UI:
             self.draw()
 
     def update(self):
-        datos = self.arduino.readline().strip().decode("utf-8")
+        datos = self.arduino.readline(self.arduino.inWaiting()).strip().decode("utf-8")
+        #print(datos)
         if datos == "Bomba ENCENDIDA":
             self.estadoBomba = True
         elif datos == "Bomba APAGADA":
@@ -110,11 +111,54 @@ class UI:
                     self.estadoev6 = True
                 else:
                     self.estadoev6 = False
+        else:
+            pass
+            #TODO: agregar lectura de flujometros
 
     def events(self):
         #eventos de la ventana
         for event in pygame.event.get():
             #print(pygame.key.get_pressed())
+            if(event.type == pygame.MOUSEBUTTONDOWN):
+                mouseX, mouseY = pygame.mouse.get_pos()
+                print("(" + str(mouseX) + "," + str(mouseY) + ")")
+                #print(mousePos[0])
+                if (mouseX >= 111 and mouseX <= 149) and (mouseY >= 363 and mouseY <= 392):
+                    if self.estadoBomba:
+                        self.arduino.write('z'.encode())
+                    else:
+                        self.arduino.write('x'.encode())
+                elif (mouseX >= 275 and mouseX <= 312) and (mouseY >= 177 and mouseY <= 211):
+                    if self.estadoev1:
+                        self.arduino.write('q'.encode())
+                    else:
+                        self.arduino.write('w'.encode())
+                elif (mouseX >= 275 and mouseX <= 312) and (mouseY >= 521 and mouseY <= 555):
+                    if self.estadoev2:
+                        self.arduino.write('a'.encode())
+                    else:
+                        self.arduino.write('s'.encode())
+                elif (mouseX >= 798 and mouseX <= 836) and (mouseY >= 177 and mouseY <= 211):
+                    if self.estadoev3:
+                        self.arduino.write('e'.encode())
+                    else:
+                        self.arduino.write('r'.encode())
+                elif (mouseX >= 698 and mouseX <= 737) and (mouseY >= 519 and mouseY <= 557):
+                    if self.estadoev4:
+                        self.arduino.write('d'.encode())
+                    else:
+                        self.arduino.write('f'.encode())
+                elif (mouseX >= 600 and mouseX <= 636) and (mouseY >= 367 and mouseY <= 402):
+                    if self.estadoev5:
+                        self.arduino.write('t'.encode())
+                    else:
+                        self.arduino.write('y'.encode())
+                elif (mouseX >= 500 and mouseX <= 538) and (mouseY >= 522 and mouseY <= 555):
+                    if self.estadoev6:
+                        self.arduino.write('g'.encode())
+                    else:
+                        self.arduino.write('h'.encode())
+
             if event.type == pygame.QUIT:
                 if self.funcionando:
                     self.funcionando = False
@@ -225,7 +269,7 @@ class UI:
         self.screen.blit(self.fondo, [0, 0])
         if self.estadoBomba:
             self.drawPasoBomba()
-            if self.paso1:
+            if not self.paso1:
                 self.drawPaso1()
                 if not self.paso3:
                     self.drawPaso3()
