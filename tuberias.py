@@ -75,7 +75,7 @@ class UI:
 
     def update(self):
         datos = self.arduino.readline(self.arduino.inWaiting()).strip().decode("utf-8")
-        print(datos)
+        #print(datos)
         if datos == "Bomba ENCENDIDA":
             self.estadoBomba = True
         elif datos == "Bomba APAGADA":
