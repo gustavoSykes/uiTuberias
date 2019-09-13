@@ -9,6 +9,7 @@ A continuación se explica lo necesario para poder ejecutar el código y los req
 ### Pre requisitos
 
 Primero que nada se necesita Python version 3.5+ junto con las siguientes librerías:
+
     * serial
     * pygame
 
