@@ -45,10 +45,10 @@ class UI:
         self.estadoVerde = pygame.image.load("imagenes/estadoVerde.png").convert_alpha()
         self.estadoRojo = pygame.image.load("imagenes/estadoRojo.png").convert_alpha()
         self.fuente = pygame.font.Font('freesansbold.ttf', 18)
-        self.datoFlujo1 = "0"
-        self.datoFlujo2 = "0"
-        self.datoFlujo3 = "0"
-        self.datoFlujo4 = "0"
+        self.datoFlujo1 = "0 L/min"
+        self.datoFlujo2 = "0 L/min"
+        self.datoFlujo3 = "0 L/min"
+        self.datoFlujo4 = "0 L/min"
         self.textoFlujo1 = self.fuente.render(self.datoFlujo1, True, negro, blanco)
         self.textoFlujo2 = self.fuente.render(self.datoFlujo2, True, negro, blanco)
         self.textoFlujo3 = self.fuente.render(self.datoFlujo3, True, negro, blanco)
@@ -114,13 +114,13 @@ class UI:
         if datos.split(" ")[0] == "flujometro":
             if datos.split(" ")[1] == "1":
                 #print(datos.split(" ")[2])
-                self.datoFlujo1 = datos.split(" ")[2]
+                self.datoFlujo1 = datos.split(" ")[2] + " L/min"
             elif datos.split(" ")[1] == "2":
-                self.datoFlujo2 = datos.split(" ")[2]
+                self.datoFlujo2 = datos.split(" ")[2] + " L/min"
             elif datos.split(" ")[1] == "3":
-                self.datoFlujo3 = datos.split(" ")[2]
+                self.datoFlujo3 = datos.split(" ")[2] + " L/min"
             elif datos.split(" ")[1] == "4":
-                self.datoFlujo4 = datos.split(" ")[2]
+                self.datoFlujo4 = datos.split(" ")[2] + " L/min"
             if self.estadoev1:
                 self.textoFlujo1 = self.fuente.render(self.datoFlujo1, True, negro, blanco)
             if self.estadoev2:
@@ -137,7 +137,7 @@ class UI:
             #print(pygame.key.get_pressed())
             if(event.type == pygame.MOUSEBUTTONDOWN):
                 mouseX, mouseY = pygame.mouse.get_pos()
-                print("(" + str(mouseX) + "," + str(mouseY) + ")")
+                print("mouse pos (" + str(mouseX) + "," + str(mouseY) + ")")
                 #print(mousePos[0])
                 if (mouseX >= 111 and mouseX <= 149) and (mouseY >= 363 and mouseY <= 392):
                     if self.estadoBomba:
