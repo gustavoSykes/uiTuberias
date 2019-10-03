@@ -75,7 +75,7 @@ class UI:
 
     def update(self):
         datos = self.arduino.readline(self.arduino.inWaiting()).strip().decode("utf-8")
-        print(datos)
+        #print(datos)
         if datos == "Bomba ENCENDIDA":
             self.estadoBomba = True
         elif datos == "Bomba APAGADA":
@@ -112,9 +112,8 @@ class UI:
                 else:
                     self.estadoev6 = False
         if datos.split(" ")[0] == "flujometro":
-            print("SLKDFJ")
             if datos.split(" ")[1] == "1":
-                print(datos.split(" ")[2])
+                #print(datos.split(" ")[2])
                 self.datoFlujo1 = datos.split(" ")[2]
             elif datos.split(" ")[1] == "2":
                 self.datoFlujo2 = datos.split(" ")[2]
