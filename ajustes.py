@@ -5,6 +5,7 @@ ancho = 1280
 alto = 720
 fps = 60
 puerto = "/dev/cu.usbmodem14201"
+velocidad = 115200
 
 #colores
 blanco = (255, 255, 255)

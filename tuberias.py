@@ -12,7 +12,7 @@ class UI:
         self.clock = pygame.time.Clock()
         self.corriendo = True
         self.fondo = pygame.image.load("imagenes/tubos.jpg")
-        self.arduino = serial.Serial(puerto, 9600)
+        self.arduino = serial.Serial(puerto, velocidad)
         self.estadoBomba = False
         self.estadoev1 = False
         self.estadoev2 = False
@@ -75,7 +75,7 @@ class UI:
 
     def update(self):
         datos = self.arduino.readline(self.arduino.inWaiting()).strip().decode("utf-8")
-        #print(datos)
+        print(datos)
         if datos == "Bomba ENCENDIDA":
             self.estadoBomba = True
         elif datos == "Bomba APAGADA":
@@ -111,8 +111,25 @@ class UI:
                     self.estadoev6 = True
                 else:
                     self.estadoev6 = False
-        else:
-            pass
+        if datos.split(" ")[0] == "flujometro":
+            print("SLKDFJ")
+            if datos.split(" ")[1] == "1":
+                print(datos.split(" ")[2])
+                self.datoFlujo1 = datos.split(" ")[2]
+            elif datos.split(" ")[1] == "2":
+                self.datoFlujo2 = datos.split(" ")[2]
+            elif datos.split(" ")[1] == "3":
+                self.datoFlujo3 = datos.split(" ")[2]
+            elif datos.split(" ")[1] == "4":
+                self.datoFlujo4 = datos.split(" ")[2]
+            if self.estadoev1:
+                self.textoFlujo1 = self.fuente.render(self.datoFlujo1, True, negro, blanco)
+            if self.estadoev2:
+                self.textoFlujo2 = self.fuente.render(self.datoFlujo2, True, negro, blanco)
+            if self.estadoev3:
+                self.textoFlujo3 = self.fuente.render(self.datoFlujo3, True, negro, blanco)
+            if self.estadoev4:
+                self.textoFlujo4 = self.fuente.render(self.datoFlujo4, True, negro, blanco)
             #TODO: agregar lectura de flujometros...
 
     def events(self):
@@ -180,10 +197,10 @@ class UI:
         self.screen.blit(self.flujo3, [700, 132])
         self.screen.blit(self.flujo3, [600, 475])
         self.screen.blit(self.textoFlujo1, [435, 180])
-        self.screen.blit(self.textoFlujo1, [355, 523])
-        self.screen.blit(self.textoFlujo1, [705, 180])
-        self.screen.blit(self.textoFlujo1, [605, 523])
-                                        # +10, -25
+        self.screen.blit(self.textoFlujo2, [355, 523])
+        self.screen.blit(self.textoFlujo3, [705, 180])
+        self.screen.blit(self.textoFlujo4, [605, 523])
+                                        #+10,-25
         self.screen.blit(self.textoe1, [285, 80])
         self.screen.blit(self.textoe2, [285, 425])
         self.screen.blit(self.textoe3, [810, 80])
